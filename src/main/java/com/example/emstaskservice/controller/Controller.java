@@ -64,47 +64,42 @@ public class Controller {
         LocalTime endTime = requestUpdationDto.getEndTime();
 
         RequestInsertTaskDto requestInsertTaskDto = new RequestInsertTaskDto();
-        if(priority!=null){
-            requestInsertTaskDto.setPriority(priority);
-        }else{
-            requestInsertTaskDto.setPriority(taskModel.getPriority());
-        }
-        if(taskStatus!=null){
-            requestInsertTaskDto.setTaskStatus(taskStatus);
+        requestInsertTaskDto.setPriority(priority != null ? priority : taskModel.getPriority());
+        requestInsertTaskDto.setTaskStatus(taskStatus != null ? taskStatus : taskModel.getTaskStatus());
 
-        }else{
-            requestInsertTaskDto.setTaskStatus(taskModel.getTaskStatus());
-        }
-        if(endTime!=null){
+        if (endTime != null) {
             requestInsertTaskDto.setEndTime(endTime);
-        }else {
+            requestInsertTaskDto.setDuration(LocalTime.ofSecondOfDay(Duration.between(taskModel.getStart_time(), endTime).toSeconds()));
+        } else {
             requestInsertTaskDto.setEndTime(taskModel.getEnd_time());
+            requestInsertTaskDto.setDuration(taskModel.getDuration());
         }
-
 
         requestInsertTaskDto.setUserId(taskModel.getUser_id());
         requestInsertTaskDto.setTitle(taskModel.getTitle());
         requestInsertTaskDto.setDescription(taskModel.getDescription());
         requestInsertTaskDto.setStartTime(taskModel.getStart_time());
         requestInsertTaskDto.setTaskTag(taskModel.getTag().getTag());
-        requestInsertTaskDto.setDuration(LocalTime.ofSecondOfDay(Duration.between(taskModel.getStart_time(), endTime).toMinutes()));
         requestInsertTaskDto.setTaskName(taskModel.getTitle());
 
-        taskService.addTask(requestInsertTaskDto);
-     return new ResponseEntity<>(
-             new ResponseInsertDto(
-                     requestInsertTaskDto.getTaskName(),
-                     requestInsertTaskDto.getDescription(),
-                     requestInsertTaskDto.getTaskStatus(),
-                     requestInsertTaskDto.getTitle(),
-                     requestInsertTaskDto.getPriority(),
-                     requestInsertTaskDto.getTaskTag(),
-                     requestInsertTaskDto.getStartTime(),
-                     requestInsertTaskDto.getEndTime(),
-                     requestInsertTaskDto.getDuration()
-             )
-    ,HttpStatus.OK );
+        taskService.updateTask(taskModel, requestInsertTaskDto);
+
+        return new ResponseEntity<>(
+                new ResponseInsertDto(
+                        requestInsertTaskDto.getTaskName(),
+                        requestInsertTaskDto.getDescription(),
+                        requestInsertTaskDto.getTaskStatus(),
+                        requestInsertTaskDto.getTitle(),
+                        requestInsertTaskDto.getPriority(),
+                        requestInsertTaskDto.getTaskTag(),
+                        requestInsertTaskDto.getStartTime(),
+                        requestInsertTaskDto.getEndTime(),
+                        requestInsertTaskDto.getDuration()
+                ),
+                HttpStatus.OK
+        );
     }
+
 
 
 }

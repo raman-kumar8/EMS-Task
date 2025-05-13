@@ -64,6 +64,32 @@ public class TaskService {
    public TaskModel findById(UUID id){
        return taskRepository.findById(id).orElse(null);
    }
+    public void updateTask(TaskModel existingTask, RequestInsertTaskDto updatedDto) {
+        existingTask.setPriority(updatedDto.getPriority());
+        existingTask.setTaskStatus(updatedDto.getTaskStatus());
+        existingTask.setEnd_time(updatedDto.getEndTime());
+
+
+        existingTask.setDuration(updatedDto.getDuration());
+
+        // Optional updates
+        existingTask.setTitle(updatedDto.getTitle());
+        existingTask.setDescription(updatedDto.getDescription());
+
+        // Handle tag
+        TaskTagModel tagModel = existingTask.getTag();
+        if (tagModel == null) {
+            tagModel = new TaskTagModel();
+            tagModel.setTask(existingTask);
+        }
+        tagModel.setTag(updatedDto.getTaskTag());
+        existingTask.setTag(tagModel);
+
+        // Save updated entity
+        taskRepository.save(existingTask);
+    }
+
+
 
 
 }
