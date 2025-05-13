@@ -58,6 +58,12 @@ public class TaskService {
     public List<TaskModel> getTasksByUserId(UUID userId) {
         return taskRepository.findByUserId(userId);
     }
+   public void deleteTask(UUID id){
+        taskRepository.deleteById(id);
+   }
+   public TaskModel findById(UUID id){
+       return taskRepository.findById(id).orElse(null);
+   }
 
 
 }

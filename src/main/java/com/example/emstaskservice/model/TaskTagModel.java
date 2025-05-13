@@ -14,8 +14,8 @@ public class TaskTagModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "text") // Store comma-separated tags, or switch to JSONB if needed
-    private String tag; // Store like: "urgent,work,personal"
+    @Column(columnDefinition = "text")
+    private String tag;
 
     @OneToOne
     @JoinColumn(name = "task_id", nullable = false)

@@ -2,30 +2,23 @@ package com.example.emstaskservice.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalTime;
 import java.util.UUID;
 @Data
-public class RequestInsertTaskDto {
-    @NotBlank(message = "taskName cannot be Blank")
+@AllArgsConstructor
+public class ResponseInsertDto {
 
     private String taskName;
-    @NotNull(message = "UserId cannot be blank")
-    private UUID userId;
-    @NotBlank(message = "Description cannot be blank")
     private String description;
-    @NotBlank (message = "taskStatus is required")
     private String taskStatus;
-    @NotBlank(message = "title is required")
     private String title;
-    @NotBlank(message = "priority is required")
     private String priority;
-    @NotBlank(message = "TaskTag is  required")
     private String taskTag;
     private LocalTime startTime;
     private LocalTime endTime;
     private LocalTime duration;
-
 
 }
