@@ -1,0 +1,23 @@
+package com.example.emstaskservice.model;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+import java.util.List;
+import java.util.UUID;
+@Entity
+@Data
+public class TaskTagModel {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(columnDefinition = "text") // Store comma-separated tags, or switch to JSONB if needed
+    private String tag; // Store like: "urgent,work,personal"
+
+    @OneToOne
+    @JoinColumn(name = "task_id", nullable = false)
+    private TaskModel task;
+}
+
