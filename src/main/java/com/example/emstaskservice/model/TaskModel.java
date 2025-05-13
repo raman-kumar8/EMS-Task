@@ -1,5 +1,6 @@
 package com.example.emstaskservice.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,6 +22,7 @@ public class TaskModel {
     private UUID id;
 
     @Column(nullable = false)
+
     private UUID user_id;
 
     @Column(nullable = false)
@@ -52,6 +54,7 @@ public class TaskModel {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated_at;
     @OneToOne(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private TaskTagModel tag;
 
 }

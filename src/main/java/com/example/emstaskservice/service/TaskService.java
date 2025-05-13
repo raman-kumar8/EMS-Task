@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.time.LocalTime;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TaskService {
@@ -52,6 +54,9 @@ public class TaskService {
                         taskModel.getTag().getTag()
                 )
         );
+    }
+    public List<TaskModel> getTasksByUserId(UUID userId) {
+        return taskRepository.findByUserId(userId);
     }
 
 

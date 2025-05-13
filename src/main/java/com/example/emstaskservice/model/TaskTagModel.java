@@ -1,5 +1,6 @@
 package com.example.emstaskservice.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,6 +19,7 @@ public class TaskTagModel {
 
     @OneToOne
     @JoinColumn(name = "task_id", nullable = false)
+    @JsonBackReference
     private TaskModel task;
 }
 
