@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Entity
 @Data
-public class TaskModel {
+public class  TaskModel {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -56,5 +56,6 @@ public class TaskModel {
     @OneToOne(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference
     private TaskTagModel tag;
+
 
 }

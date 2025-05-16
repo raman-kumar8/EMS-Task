@@ -5,11 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalTime;
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 public class ResponseDto {
 
-
+    private UUID taskId;
     private String description;
     private String taskStatus;
     private String title;

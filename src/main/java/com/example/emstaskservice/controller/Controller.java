@@ -1,10 +1,7 @@
 package com.example.emstaskservice.controller;
 
 import com.example.emstaskservice.OpenFeign.Validate;
-import com.example.emstaskservice.dto.RequestInsertTaskDto;
-import com.example.emstaskservice.dto.RequestUpdationDto;
-import com.example.emstaskservice.dto.ResponseDto;
-import com.example.emstaskservice.dto.ResponseInsertDto;
+import com.example.emstaskservice.dto.*;
 import com.example.emstaskservice.exception.CustomException;
 import com.example.emstaskservice.model.TaskModel;
 import com.example.emstaskservice.service.TaskService;
@@ -34,12 +31,20 @@ public class Controller {
        return taskService.addTask(requestInsertTaskDto);
 
     }
+    @PostMapping("/getAllbyId")
+public ResponseEntity<List<TaskModel>> getAllById(@Valid @RequestBody RequestListUUidsDto requestListUUidsDto){
+        return ResponseEntity.ok(taskService.getAllByTaskId(requestListUUidsDto));
+    }
+
     @GetMapping("/getAll")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public List<TaskModel> getAll(@CookieValue("jwt_token") String token) {
         String cookieHeader = "jwt_token=" + token;
 
-        String userIdString = validate.validate(cookieHeader); // Validate to get userId
+        String userIdString = validate.validate(cookieHeader);
+        if(userIdString.isEmpty()){
+            throw new CustomException("Server went Down");
+        }
         UUID userId = UUID.fromString(userIdString); // Convert to UUID
 
         return taskService.getTasksByUserId(userId); // Fetch tasks for that user

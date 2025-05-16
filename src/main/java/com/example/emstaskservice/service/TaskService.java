@@ -1,7 +1,9 @@
 package com.example.emstaskservice.service;
 
 import com.example.emstaskservice.dto.RequestInsertTaskDto;
+import com.example.emstaskservice.dto.RequestListUUidsDto;
 import com.example.emstaskservice.dto.ResponseDto;
+import com.example.emstaskservice.exception.CustomException;
 import com.example.emstaskservice.model.TaskModel;
 import com.example.emstaskservice.model.TaskTagModel;
 import com.example.emstaskservice.repository.TaskRepository;
@@ -46,6 +48,7 @@ public class TaskService {
 
         return ResponseEntity.ok(
                 new ResponseDto(
+                        taskModel.getId(),
                         taskModel.getDescription(),
                         taskModel.getTaskStatus(),
                         taskModel.getTitle(),
@@ -59,11 +62,19 @@ public class TaskService {
         return taskRepository.findByUserId(userId);
     }
    public void deleteTask(UUID id){
+        if(!taskRepository.existsById(id)){
+            throw new CustomException("Task not found");
+        }
         taskRepository.deleteById(id);
    }
    public TaskModel findById(UUID id){
        return taskRepository.findById(id).orElse(null);
    }
+
+   public List<TaskModel> getAllByTaskId(RequestListUUidsDto requestListUUidsDto){
+        return  taskRepository.findAllById(requestListUUidsDto.getUuids());
+   }
+
     public void updateTask(TaskModel existingTask, RequestInsertTaskDto updatedDto) {
         existingTask.setPriority(updatedDto.getPriority());
         existingTask.setTaskStatus(updatedDto.getTaskStatus());
@@ -85,7 +96,7 @@ public class TaskService {
         tagModel.setTag(updatedDto.getTaskTag());
         existingTask.setTag(tagModel);
 
-        // Save updated entity
+
         taskRepository.save(existingTask);
     }
 
