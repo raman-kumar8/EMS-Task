@@ -10,7 +10,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class ResponseDto {
-
+    private  String taskName;
     private UUID taskId;
     private String description;
     private String taskStatus;

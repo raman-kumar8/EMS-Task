@@ -20,7 +20,8 @@ public class  TaskModel {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(updatable = false, nullable = false)
     private UUID id;
-
+    @Column
+    private String taskName;
     @Column(nullable = false)
 
     private UUID user_id;

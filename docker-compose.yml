@@ -17,7 +17,7 @@ services:
       DB_URL2: jdbc:postgresql://db:5432/emsdb
       DB_USERNAME2: emsuser
       DB_PASSWORD2: 00000000
-      USER_URL: http://localhost:8080/api/v1
+      USER_URL: http://192.168.118.82:8080/api/v1
 
     ports:
       - "8081:8080"

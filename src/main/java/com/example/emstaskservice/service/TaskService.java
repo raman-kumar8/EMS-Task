@@ -28,6 +28,7 @@ public class TaskService {
     public ResponseEntity<ResponseDto> addTask(RequestInsertTaskDto requestInsertTaskDto){
 
         TaskModel taskModel = new TaskModel();
+        taskModel.setTaskName(requestInsertTaskDto.getTaskName());
         taskModel.setUser_id(requestInsertTaskDto.getUserId());
         taskModel.setTitle(requestInsertTaskDto.getTitle());
         taskModel.setDescription(requestInsertTaskDto.getDescription());
@@ -48,6 +49,7 @@ public class TaskService {
 
         return ResponseEntity.ok(
                 new ResponseDto(
+                        taskModel.getTaskName(),
                         taskModel.getId(),
                         taskModel.getDescription(),
                         taskModel.getTaskStatus(),

@@ -21,4 +21,5 @@ public class ResponseInsertDto {
     private LocalTime endTime;
     private LocalTime duration;
 
+
 }
