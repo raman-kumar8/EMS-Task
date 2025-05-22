@@ -2,6 +2,8 @@ package com.example.emstaskservice.controller;
 
 import com.example.emstaskservice.OpenFeign.Validate;
 import com.example.emstaskservice.dto.*;
+import com.example.emstaskservice.enums.Priority;
+import com.example.emstaskservice.enums.TaskStatus;
 import com.example.emstaskservice.exception.CustomException;
 import com.example.emstaskservice.model.TaskModel;
 import com.example.emstaskservice.service.TaskService;
@@ -39,16 +41,27 @@ public ResponseEntity<List<TaskModel>> getAllById(@Valid @RequestBody RequestLis
     @GetMapping("/getAll")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public List<TaskModel> getAll(@CookieValue("jwt_token") String token) {
+        System.out.println("JWT Token from cookie: " + token);
+
         String cookieHeader = "jwt_token=" + token;
 
-        String userIdString = validate.validate(cookieHeader);
-        if(userIdString.isEmpty()){
-            throw new CustomException("Server went Down");
-        }
-        UUID userId = UUID.fromString(userIdString); // Convert to UUID
+        try {
+            String userIdString = validate.validate(cookieHeader);
 
-        return taskService.getTasksByUserId(userId); // Fetch tasks for that user
+            System.out.println("User ID string from token: " + userIdString);
+
+            if (userIdString.isEmpty()) {
+                throw new CustomException("Invalid token or server down");
+            }
+
+            UUID userId = UUID.fromString(userIdString);
+            return taskService.getTasksByUserId(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new CustomException("Invalid UUID or failed to fetch tasks");
+        }
     }
+
     @DeleteMapping("/delete/{id}")
     public boolean delete(@PathVariable UUID id){
 
@@ -64,8 +77,8 @@ public ResponseEntity<List<TaskModel>> getAllById(@Valid @RequestBody RequestLis
             throw new CustomException("Task not found");
         }
 
-        String priority = requestUpdationDto.getPriority();
-        String taskStatus = requestUpdationDto.getTaskStatus();
+        Priority priority = requestUpdationDto.getPriority();
+        TaskStatus taskStatus = requestUpdationDto.getTaskStatus();
         LocalTime endTime = requestUpdationDto.getEndTime();
 
         RequestInsertTaskDto requestInsertTaskDto = new RequestInsertTaskDto();

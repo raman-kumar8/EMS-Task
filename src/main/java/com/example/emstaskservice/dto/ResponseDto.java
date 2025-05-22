@@ -1,6 +1,8 @@
 package com.example.emstaskservice.dto;
 
 
+import com.example.emstaskservice.enums.Priority;
+import com.example.emstaskservice.enums.TaskStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -13,9 +15,9 @@ public class ResponseDto {
     private  String taskName;
     private UUID taskId;
     private String description;
-    private String taskStatus;
+    private TaskStatus taskStatus;
     private String title;
-    private String priority;
+    private Priority priority;
     private LocalTime startTime;
 
    private String taskTag;

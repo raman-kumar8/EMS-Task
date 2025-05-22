@@ -8,16 +8,23 @@ services:
       POSTGRES_PASSWORD: 00000000
     ports:
       - "5434:5432"
+    networks:
+      - ems-network
 
-  app:
-    image: ems-task:latest
+  taskservice:
+    build: ./
     depends_on:
       - db
     environment:
       DB_URL2: jdbc:postgresql://db:5432/emsdb
       DB_USERNAME2: emsuser
       DB_PASSWORD2: 00000000
-      USER_URL: http://192.168.118.82:8080/api/v1
+      USER_URL: http://userservice:8080/api/v1
 
     ports:
       - "8081:8080"
+    networks:
+      - ems-network
+networks:
+  ems-network:
+    external: true

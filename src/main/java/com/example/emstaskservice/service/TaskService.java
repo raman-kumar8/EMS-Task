@@ -3,6 +3,7 @@ package com.example.emstaskservice.service;
 import com.example.emstaskservice.dto.RequestInsertTaskDto;
 import com.example.emstaskservice.dto.RequestListUUidsDto;
 import com.example.emstaskservice.dto.ResponseDto;
+import com.example.emstaskservice.enums.TaskStatus;
 import com.example.emstaskservice.exception.CustomException;
 import com.example.emstaskservice.model.TaskModel;
 import com.example.emstaskservice.model.TaskTagModel;
@@ -33,7 +34,7 @@ public class TaskService {
         taskModel.setTitle(requestInsertTaskDto.getTitle());
         taskModel.setDescription(requestInsertTaskDto.getDescription());
         taskModel.setStart_time(LocalTime.now());
-        taskModel.setTaskStatus("pending");
+        taskModel.setTaskStatus(TaskStatus.PENDING);
         taskModel.setPriority(requestInsertTaskDto.getPriority());
 
 

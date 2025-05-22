@@ -1,5 +1,7 @@
 package com.example.emstaskservice.model;
 
+import com.example.emstaskservice.enums.Priority;
+import com.example.emstaskservice.enums.TaskStatus;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -13,17 +15,18 @@ import java.util.UUID;
 
 @Entity
 @Data
-public class  TaskModel {
+public class TaskModel {
 
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(updatable = false, nullable = false)
     private UUID id;
+
     @Column
     private String taskName;
-    @Column(nullable = false)
 
+    @Column(nullable = false)
     private UUID user_id;
 
     @Column(nullable = false)
@@ -41,11 +44,13 @@ public class  TaskModel {
     @Column
     private LocalTime duration;
 
-    @Column
-    private String taskStatus;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TaskStatus taskStatus;
 
-    @Column
-    private String priority;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Priority priority;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
@@ -54,9 +59,8 @@ public class  TaskModel {
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated_at;
+
     @OneToOne(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference
     private TaskTagModel tag;
-
-
 }
