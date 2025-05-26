@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,7 +34,9 @@ public class TaskService {
         taskModel.setUser_id(requestInsertTaskDto.getUserId());
         taskModel.setTitle(requestInsertTaskDto.getTitle());
         taskModel.setDescription(requestInsertTaskDto.getDescription());
-        taskModel.setStart_time(LocalTime.now());
+
+        taskModel.setStart_time(requestInsertTaskDto.getStartTime());
+
         taskModel.setTaskStatus(TaskStatus.PENDING);
         taskModel.setPriority(requestInsertTaskDto.getPriority());
 
@@ -85,7 +88,7 @@ public class TaskService {
 
 
         existingTask.setDuration(updatedDto.getDuration());
-
+        System.out.println("udpateDto exisint"+existingTask.getDuration());
         // Optional updates
         existingTask.setTitle(updatedDto.getTitle());
         existingTask.setDescription(updatedDto.getDescription());

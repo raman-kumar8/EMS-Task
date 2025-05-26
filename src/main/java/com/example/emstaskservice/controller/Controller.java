@@ -41,14 +41,14 @@ public ResponseEntity<List<TaskModel>> getAllById(@Valid @RequestBody RequestLis
     @GetMapping("/getAll")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public List<TaskModel> getAll(@CookieValue("jwt_token") String token) {
-        System.out.println("JWT Token from cookie: " + token);
+
 
         String cookieHeader = "jwt_token=" + token;
 
         try {
             String userIdString = validate.validate(cookieHeader);
 
-            System.out.println("User ID string from token: " + userIdString);
+
 
             if (userIdString.isEmpty()) {
                 throw new CustomException("Invalid token or server down");
@@ -77,6 +77,7 @@ public ResponseEntity<List<TaskModel>> getAllById(@Valid @RequestBody RequestLis
             throw new CustomException("Task not found");
         }
 
+
         Priority priority = requestUpdationDto.getPriority();
         TaskStatus taskStatus = requestUpdationDto.getTaskStatus();
         LocalTime endTime = requestUpdationDto.getEndTime();
@@ -87,7 +88,9 @@ public ResponseEntity<List<TaskModel>> getAllById(@Valid @RequestBody RequestLis
 
         if (endTime != null) {
             requestInsertTaskDto.setEndTime(endTime);
+            System.out.println(endTime);
             requestInsertTaskDto.setDuration(LocalTime.ofSecondOfDay(Duration.between(taskModel.getStart_time(), endTime).toSeconds()));
+            System.out.println(requestInsertTaskDto.getDuration());
         } else {
             requestInsertTaskDto.setEndTime(taskModel.getEnd_time());
             requestInsertTaskDto.setDuration(taskModel.getDuration());
@@ -101,7 +104,7 @@ public ResponseEntity<List<TaskModel>> getAllById(@Valid @RequestBody RequestLis
         requestInsertTaskDto.setTaskName(taskModel.getTitle());
 
         taskService.updateTask(taskModel, requestInsertTaskDto);
-
+        System.out.println(requestInsertTaskDto.getDuration());;
         return new ResponseEntity<>(
                 new ResponseInsertDto(
                         requestInsertTaskDto.getTaskName(),
