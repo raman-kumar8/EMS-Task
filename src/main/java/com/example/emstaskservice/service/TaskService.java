@@ -37,7 +37,7 @@ public class TaskService {
 
         taskModel.setStart_time(requestInsertTaskDto.getStartTime());
 
-        taskModel.setTaskStatus(TaskStatus.PENDING);
+        taskModel.setTaskStatus(requestInsertTaskDto.getTaskStatus()==TaskStatus.COMPLETED?TaskStatus.PENDING:requestInsertTaskDto.getTaskStatus());
         taskModel.setPriority(requestInsertTaskDto.getPriority());
 
 
