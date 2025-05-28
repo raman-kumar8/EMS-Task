@@ -23,7 +23,7 @@ import java.util.UUID;
 public class TaskService {
     private  final TaskRepository taskRepository;
     @Autowired
-    TaskService(TaskRepository taskRepository){
+    public TaskService(TaskRepository taskRepository){
         this.taskRepository = taskRepository;
     }
     @ResponseStatus
