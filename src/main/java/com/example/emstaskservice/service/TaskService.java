@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class TaskService {
@@ -105,6 +104,35 @@ public class TaskService {
 
         taskRepository.save(existingTask);
     }
+    public long countActiveTasks() {
+        List<TaskStatus> activeStatuses = Arrays.asList(TaskStatus.PENDING, TaskStatus.IN_PROGRESS);
+        return taskRepository.countByTaskStatusIn(activeStatuses);
+    }
+
+    public long countCompletedTasks(){
+        List<TaskStatus> completedStatuses = Arrays.asList(TaskStatus.COMPLETED);
+        return taskRepository.countByTaskStatusIn(completedStatuses);
+
+    }
+
+    public Map<String, Object> getTaskSummary(UUID userId) {
+        Long activeTasks = taskRepository.countByUserIdAndTaskStatusIn(
+                userId,
+                Arrays.asList(TaskStatus.PENDING, TaskStatus.IN_PROGRESS)
+        );
+        Long completedTasks = taskRepository.countByUserIdAndTaskStatus(userId, TaskStatus.COMPLETED);
+
+        Map<String, Object> summary = new HashMap<>();
+        summary.put("userId", userId);
+        summary.put("activeTasks", activeTasks);
+        summary.put("completedTasks", completedTasks);
+
+        return summary;
+    }
+
+
+
+
 
 
 
