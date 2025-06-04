@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -119,6 +120,28 @@ public ResponseEntity<List<TaskModel>> getAllById(@Valid @RequestBody RequestLis
                 ),
                 HttpStatus.OK
         );
+    }
+    @GetMapping("/getByUserId/{userId}")
+    public ResponseEntity<List<TaskModel>> getTasksByUserId(@PathVariable UUID userId) {
+        List<TaskModel> tasks = taskService.getTasksByUserId(userId);
+        return ResponseEntity.ok(tasks);
+    }
+
+
+    @GetMapping("/active/count")
+    public long getActiveTaskCount() {
+        return taskService.countActiveTasks();
+    }
+
+    @GetMapping("/completed/count")
+    public long getCompletedTaskCount() {
+        return taskService.countCompletedTasks();
+    }
+
+    @GetMapping("/summary/{userId}")
+    public ResponseEntity<Map<String, Object>> getTaskSummary(@PathVariable UUID userId) {
+        Map<String, Object> summary = taskService.getTaskSummary(userId);
+        return ResponseEntity.ok(summary);
     }
 
 
