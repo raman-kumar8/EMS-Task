@@ -29,6 +29,6 @@ public class RequestInsertTaskDto {
     private LocalTime startTime;
     private LocalTime endTime;
     private LocalTime duration;
-
+    private String assignedBy;
 
 }

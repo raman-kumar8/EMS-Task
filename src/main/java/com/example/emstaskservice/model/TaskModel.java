@@ -25,7 +25,8 @@ public class TaskModel {
 
     @Column
     private String taskName;
-
+    @Column
+    private String assignedBy;
     @Column(nullable = false)
     private UUID user_id;
 

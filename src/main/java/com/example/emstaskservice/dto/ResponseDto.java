@@ -21,6 +21,6 @@ public class ResponseDto {
     private String title;
     private Priority priority;
     private LocalTime startTime;
-
-   private String taskTag;
+    private String taskTag;
+    private String assignedBy;
 }

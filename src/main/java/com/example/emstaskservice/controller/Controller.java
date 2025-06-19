@@ -58,7 +58,7 @@ public ResponseEntity<List<TaskModel>> getAllById(@Valid @RequestBody RequestLis
             UUID userId = UUID.fromString(userIdString);
             return taskService.getTasksByUserId(userId);
         } catch (Exception e) {
-            e.printStackTrace();
+
             throw new CustomException("Invalid UUID or failed to fetch tasks");
         }
     }
@@ -105,7 +105,7 @@ public ResponseEntity<List<TaskModel>> getAllById(@Valid @RequestBody RequestLis
         requestInsertTaskDto.setTaskName(taskModel.getTitle());
 
         taskService.updateTask(taskModel, requestInsertTaskDto);
-        System.out.println(requestInsertTaskDto.getDuration());;
+
         return new ResponseEntity<>(
                 new ResponseInsertDto(
                         requestInsertTaskDto.getTaskName(),
@@ -116,7 +116,8 @@ public ResponseEntity<List<TaskModel>> getAllById(@Valid @RequestBody RequestLis
                         requestInsertTaskDto.getTaskTag(),
                         requestInsertTaskDto.getStartTime(),
                         requestInsertTaskDto.getEndTime(),
-                        requestInsertTaskDto.getDuration()
+                        requestInsertTaskDto.getDuration(),
+                        requestInsertTaskDto.getAssignedBy()
                 ),
                 HttpStatus.OK
         );

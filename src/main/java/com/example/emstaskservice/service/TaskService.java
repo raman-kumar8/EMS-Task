@@ -35,7 +35,7 @@ public class TaskService {
         taskModel.setDescription(requestInsertTaskDto.getDescription());
 
         taskModel.setStart_time(requestInsertTaskDto.getStartTime());
-
+        taskModel.setAssignedBy(requestInsertTaskDto.getAssignedBy());
         taskModel.setTaskStatus(requestInsertTaskDto.getTaskStatus()==TaskStatus.COMPLETED?TaskStatus.PENDING:requestInsertTaskDto.getTaskStatus());
         taskModel.setPriority(requestInsertTaskDto.getPriority());
 
@@ -59,7 +59,8 @@ public class TaskService {
                         taskModel.getTitle(),
                         taskModel.getPriority(),
                         taskModel.getStart_time(),
-                        taskModel.getTag().getTag()
+                        taskModel.getTag().getTag(),
+                        taskModel.getAssignedBy()
                 )
         );
     }
