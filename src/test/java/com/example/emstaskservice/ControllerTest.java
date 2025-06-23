@@ -2,13 +2,11 @@ package com.example.emstaskservice;
 
 import com.example.emstaskservice.controller.Controller;
 import com.example.emstaskservice.dto.*;
-import com.example.emstaskservice.enums.Priority;
-import com.example.emstaskservice.enums.TaskStatus;
 import com.example.emstaskservice.exception.CustomException;
 import com.example.emstaskservice.model.TaskModel;
 import com.example.emstaskservice.model.TaskTagModel;
 import com.example.emstaskservice.service.TaskService;
-import com.example.emstaskservice.OpenFeign.Validate;
+import com.example.emstaskservice.openfeign.Validate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -36,7 +34,7 @@ class ControllerTest {
     @BeforeEach
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
-        controller = new Controller(taskService);
+        controller = new Controller(taskService,validate);
 
         // Use reflection to inject the mock Validate if the field is private
         Field validateField = Controller.class.getDeclaredField("validate");
@@ -113,7 +111,7 @@ class ControllerTest {
         TaskTagModel tagModel = new TaskTagModel();
         tagModel.setTag("tag");
         taskModel.setTag(tagModel);
-        taskModel.setStart_time(LocalTime.now());
+        taskModel.setStartTime(LocalTime.now());
         when(taskService.findById(id)).thenReturn(taskModel);
         doNothing().when(taskService).updateTask(any(), any());
         ResponseEntity<ResponseInsertDto> response = controller.update(updationDto, id);

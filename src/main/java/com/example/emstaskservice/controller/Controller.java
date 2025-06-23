@@ -1,6 +1,6 @@
 package com.example.emstaskservice.controller;
 
-import com.example.emstaskservice.OpenFeign.Validate;
+import com.example.emstaskservice.openfeign.Validate;
 import com.example.emstaskservice.dto.*;
 import com.example.emstaskservice.enums.Priority;
 import com.example.emstaskservice.enums.TaskStatus;
@@ -22,12 +22,14 @@ import java.util.UUID;
 @RestController
 public class Controller {
     private final TaskService taskService;
+    private final Validate validate;
     @Autowired
-    public Controller(TaskService taskService){
+    public Controller(TaskService taskService,Validate validate){
         this.taskService = taskService;
+        this.validate = validate;
     }
-    @Autowired
-    private Validate validate;
+
+
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ResponseDto> add (@Valid @RequestBody RequestInsertTaskDto requestInsertTaskDto){
@@ -89,18 +91,18 @@ public ResponseEntity<List<TaskModel>> getAllById(@Valid @RequestBody RequestLis
 
         if (endTime != null) {
             requestInsertTaskDto.setEndTime(endTime);
-            System.out.println(endTime);
-            requestInsertTaskDto.setDuration(LocalTime.ofSecondOfDay(Duration.between(taskModel.getStart_time(), endTime).toSeconds()));
-            System.out.println(requestInsertTaskDto.getDuration());
+
+            requestInsertTaskDto.setDuration(LocalTime.ofSecondOfDay(Duration.between(taskModel.getStartTime(), endTime).toSeconds()));
+
         } else {
-            requestInsertTaskDto.setEndTime(taskModel.getEnd_time());
+            requestInsertTaskDto.setEndTime(taskModel.getEndTime());
             requestInsertTaskDto.setDuration(taskModel.getDuration());
         }
 
-        requestInsertTaskDto.setUserId(taskModel.getUser_id());
+        requestInsertTaskDto.setUserId(taskModel.getUserId());
         requestInsertTaskDto.setTitle(taskModel.getTitle());
         requestInsertTaskDto.setDescription(taskModel.getDescription());
-        requestInsertTaskDto.setStartTime(taskModel.getStart_time());
+        requestInsertTaskDto.setStartTime(taskModel.getStartTime());
         requestInsertTaskDto.setTaskTag(taskModel.getTag().getTag());
         requestInsertTaskDto.setTaskName(taskModel.getTitle());
 

@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalTime;
@@ -19,7 +18,7 @@ public class TaskModel {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+
     @Column(updatable = false, nullable = false)
     private UUID id;
 
@@ -28,7 +27,7 @@ public class TaskModel {
     @Column
     private String assignedBy;
     @Column(nullable = false)
-    private UUID user_id;
+    private UUID userId;
 
     @Column(nullable = false)
     private String title;
@@ -37,10 +36,10 @@ public class TaskModel {
     private String description;
 
     @Column
-    private LocalTime start_time;
+    private LocalTime startTime;
 
     @Column
-    private LocalTime end_time;
+    private LocalTime endTime;
 
     @Column
     private LocalTime duration;
@@ -55,11 +54,11 @@ public class TaskModel {
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    private Date created_at;
+    private Date createdAt;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    private Date updated_at;
+    private Date updatedAt;
 
     @OneToOne(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference

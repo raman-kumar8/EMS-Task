@@ -14,8 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
+
 import java.util.*;
 
 @Service
@@ -30,11 +29,11 @@ public class TaskService {
 
         TaskModel taskModel = new TaskModel();
         taskModel.setTaskName(requestInsertTaskDto.getTaskName());
-        taskModel.setUser_id(requestInsertTaskDto.getUserId());
+        taskModel.setUserId(requestInsertTaskDto.getUserId());
         taskModel.setTitle(requestInsertTaskDto.getTitle());
         taskModel.setDescription(requestInsertTaskDto.getDescription());
 
-        taskModel.setStart_time(requestInsertTaskDto.getStartTime());
+        taskModel.setStartTime(requestInsertTaskDto.getStartTime());
         taskModel.setAssignedBy(requestInsertTaskDto.getAssignedBy());
         taskModel.setTaskStatus(requestInsertTaskDto.getTaskStatus()==TaskStatus.COMPLETED?TaskStatus.PENDING:requestInsertTaskDto.getTaskStatus());
         taskModel.setPriority(requestInsertTaskDto.getPriority());
@@ -58,7 +57,7 @@ public class TaskService {
                         taskModel.getTaskStatus(),
                         taskModel.getTitle(),
                         taskModel.getPriority(),
-                        taskModel.getStart_time(),
+                        taskModel.getStartTime(),
                         taskModel.getTag().getTag(),
                         taskModel.getAssignedBy()
                 )
@@ -84,11 +83,11 @@ public class TaskService {
     public void updateTask(TaskModel existingTask, RequestInsertTaskDto updatedDto) {
         existingTask.setPriority(updatedDto.getPriority());
         existingTask.setTaskStatus(updatedDto.getTaskStatus());
-        existingTask.setEnd_time(updatedDto.getEndTime());
+        existingTask.setEndTime(updatedDto.getEndTime());
 
 
         existingTask.setDuration(updatedDto.getDuration());
-        System.out.println("udpateDto exisint"+existingTask.getDuration());
+
         // Optional updates
         existingTask.setTitle(updatedDto.getTitle());
         existingTask.setDescription(updatedDto.getDescription());
