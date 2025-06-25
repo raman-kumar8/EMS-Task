@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.config.Task;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
@@ -59,6 +60,27 @@ public ResponseEntity<List<TaskModel>> getAllById(@Valid @RequestBody RequestLis
 
             UUID userId = UUID.fromString(userIdString);
             return taskService.getTasksByUserId(userId);
+        } catch (Exception e) {
+
+            throw new CustomException("Invalid UUID or failed to fetch tasks");
+        }
+    }
+    @GetMapping("/admin/getAll")
+    public ResponseEntity<List<TaskModel>> getAllAdminTasks(@CookieValue("jwt_token") String token) {
+        String cookieHeader = "jwt_token=" + token;
+
+        try {
+            String userIdString = validate.validate(cookieHeader);
+
+
+
+            if (userIdString.isEmpty()) {
+                throw new CustomException("Invalid token or server down");
+            }
+
+
+            List<TaskModel> allAdminTasks = taskService.getAllAdminTasksForUser();
+            return ResponseEntity.ok(allAdminTasks);
         } catch (Exception e) {
 
             throw new CustomException("Invalid UUID or failed to fetch tasks");

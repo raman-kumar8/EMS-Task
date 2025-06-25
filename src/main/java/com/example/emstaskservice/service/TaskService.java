@@ -79,6 +79,10 @@ public class TaskService {
    public List<TaskModel> getAllByTaskId(RequestListUUidsDto requestListUUidsDto){
         return  taskRepository.findAllById(requestListUUidsDto.getUuids());
    }
+    public List<TaskModel> getAllAdminTasksForUser() {
+        return taskRepository.findAllByAssignedBy("admin");
+    }
+
 
     public void updateTask(TaskModel existingTask, RequestInsertTaskDto updatedDto) {
         existingTask.setPriority(updatedDto.getPriority());
